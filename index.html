@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="選手を動かして、オフサイドの仕組みを学ぼう。親子で使えるサッカールールの練習アプリ。">
+  <title>オフサイド・ラボ | 動かしてわかるサッカールール</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="rules.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">⚽</span> SOCCER RULE LAB<span class="brand-tag">サッカールールを、もっと身近に。</span></a><span class="lesson-label">LESSON 01 <span>／ オフサイド</span></span></header>
+  <main>
+    <section class="intro"><div class="eyebrow"><span></span> 親子で学ぶ、サッカーのきほん</div><h1>オフサイドって、<br class="mobile-break">どういうこと？</h1><p>選手を動かして、見て、なるほど。<br class="mobile-break">むずかしいルールを、ピッチで体験しよう。</p></section>
+    <section class="lab" aria-label="オフサイドのシミュレーター">
+      <div class="play-area">
+        <div class="panel-heading"><h2><span class="step-number">01</span> 動かしてみよう</h2><button id="reset" class="reset-button" type="button">↺ 初期配置に戻す</button></div>
+        <div class="field-view">
+        <div class="pitch-toolbar"><span class="time-badge"><span></span> パスが出る瞬間</span><span class="attack-direction">攻める方向 <b>→</b></span></div>
+        <div class="pitch" id="pitch" aria-label="右に攻めるサッカーピッチ。選手とボールはドラッグまたは矢印キーで移動できます。">
+          <svg class="field-lines" viewBox="0 0 1000 650" preserveAspectRatio="none" aria-hidden="true"><rect x="20" y="20" width="960" height="610"/><path d="M500 20V630"/><circle cx="500" cy="325" r="86"/><circle cx="500" cy="325" r="3" class="field-dot"/><path d="M20 180H165V470H20 M980 180H835V470H980 M20 260H74V390H20 M980 260H926V390H980"/><path d="M165 250Q225 325 165 400 M835 250Q775 325 835 400"/><circle cx="125" cy="325" r="3" class="field-dot"/><circle cx="875" cy="325" r="3" class="field-dot"/></svg>
+          <div class="goal goal-left" aria-hidden="true"></div><div class="goal goal-right" aria-hidden="true"></div>
+          <div class="offside-zone" id="offside-zone" aria-hidden="true"></div>
+          <div class="offside-line" id="offside-line" aria-hidden="true"><span>守備側の基準ライン</span></div>
+          <span class="half-label own-half">自陣</span><span class="half-label opponent-half">相手陣</span>
+          <button class="player attacker forward" data-piece="fw" aria-label="FW、ドラッグか矢印キーで移動"><span>9</span><small>FW</small></button>
+          <div class="player attacker passer" id="passer" aria-label="パスを出す味方"><span>8</span><small>パサー</small></div>
+          <button class="player defender" data-piece="df1" aria-label="DF 4、ドラッグか矢印キーで移動"><span>4</span><small>DF</small></button>
+          <button class="player defender" data-piece="df2" aria-label="DF 5、ドラッグか矢印キーで移動"><span>5</span><small>DF</small></button>
+          <button class="player defender goalkeeper" data-piece="gk" aria-label="GK、ドラッグか矢印キーで移動"><span>1</span><small>GK</small></button>
+          <button class="ball" data-piece="ball" aria-label="ボール、ドラッグか矢印キーで移動">⚽</button>
+        </div>
+        <div class="mobile-verdict" id="mobile-verdict"><span id="mobile-verdict-icon" aria-hidden="true">✓</span><strong id="mobile-verdict-title">オンサイド</strong><small>パスが出る瞬間の位置</small></div>
+        </div>
+        <div class="pitch-legend"><span><i class="blue-dot"></i>攻撃側</span><span><i class="red-dot"></i>守備側（GKを含む）</span><span><i class="line-dot"></i>後ろから2人目</span></div>
+        <div class="drag-hint"><span aria-hidden="true">☝</span><p><strong>青いFWをつかんで動かしてみよう！</strong><br>赤い選手やボールも動かせます。選手の中心が判定位置です。<br>通常のプレー中の味方のパスを対象としています。スローイン・ゴールキック・コーナーキックを直接受ける場面は対象外です。</p></div>
+      </div>
+      <aside class="result-panel"><div class="panel-heading"><h2><span class="step-number">02</span> 判定を見てみよう</h2><span class="live-label">LIVE</span></div>
+        <div id="verdict" class="verdict" role="status" aria-live="polite" aria-atomic="true"><div class="verdict-top"><span id="verdict-icon" aria-hidden="true">✓</span><span id="verdict-en">ONSIDE</span></div><h3 id="verdict-title">オンサイド</h3><p id="reason"></p></div>
+        <div class="check-heading">オフサイドポジションの3つの条件</div><ol class="conditions" id="conditions"><li><span class="check-icon"></span><div>相手陣内にいる<small>ハーフウェーラインより前</small></div></li><li><span class="check-icon"></span><div>ボールより前にいる<small>相手のゴールに近い</small></div></li><li><span class="check-icon"></span><div>後ろから2人目の相手より前<small>ゴールキーパーも人数に含みます</small></div></li></ol>
+        <p class="condition-note">3つすべてに当てはまると<br><strong>オフサイドポジション</strong>です。</p>
+        <div class="remember"><span>覚えておこう</span><p><strong>同じラインなら、オンサイド。</strong><br>少しでも後ろか、同じ位置なら大丈夫。</p></div>
+      </aside>
+    </section>
+    <section class="samples"><div class="section-heading"><div><span class="eyebrow">TRY THE EXAMPLES</span><h2>こんなとき、どうなる？</h2></div><p>配置を選んで、違いを見つけよう。</p></div><div class="sample-grid" id="samples">
+      <button type="button" data-sample="onside" class="sample-card active" aria-pressed="true"><span class="sample-symbol safe">✓</span><span><strong>守備側より後ろ</strong><small>基本のオンサイド</small></span><b>↗</b></button>
+      <button type="button" data-sample="offside" class="sample-card" aria-pressed="false"><span class="sample-symbol danger">!</span><span><strong>ゴールに近すぎる？</strong><small>オフサイドポジション</small></span><b>↗</b></button>
+      <button type="button" data-sample="level" class="sample-card" aria-pressed="false"><span class="sample-symbol neutral">＝</span><span><strong>同じラインなら？</strong><small>守備側と並んでみよう</small></span><b>↗</b></button>
+      <button type="button" data-sample="ball" class="sample-card" aria-pressed="false"><span class="sample-symbol neutral">⚽</span><span><strong>ボールより後ろ</strong><small>守備側を越えていても…</small></span><b>↗</b></button>
+      <button type="button" data-sample="own" class="sample-card" aria-pressed="false"><span class="sample-symbol neutral">½</span><span><strong>自陣にいるとき</strong><small>相手の位置に関係なく</small></span><b>↗</b></button>
+    </div></section>
+    <section class="learning-note"><span class="note-icon" aria-hidden="true">i</span><div><h2>「その位置にいる」だけでは、反則になりません。</h2><p>このアプリは、味方がパスを出す瞬間の<strong>位置</strong>を判定します。実際には、その後ボールに触れる・相手のプレーを妨げるなど、プレーに関わったときに反則になります。スローイン・ゴールキック・コーナーキックを直接受ける場合は、オフサイドの反則になりません。</p><p>学習のため選手を点として扱っています。実際の試合では頭・胴体・足の位置で判定し、手や腕は含めません。</p></div></section>
+  </main>
+  <footer><span>⚽ SOCCER RULE LAB <small>動かして、わかる。</small></span><a href="https://www.theifab.com/laws/latest/offside/" target="_blank" rel="noopener noreferrer">ルールの出典：IFAB 第11条 ↗</a></footer>
+</body>
+</html>
